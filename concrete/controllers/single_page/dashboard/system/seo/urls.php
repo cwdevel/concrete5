@@ -24,7 +24,7 @@ class Urls extends DashboardSitePageController
         $this->set('urlRewriting', $urlRewriting);
         $this->set('canonical_tag', $siteConfig->get('seo.canonical_tag.enabled'));
         ##### CW-add
-        $this->set('c5_path', $siteConfig->get('seo.c5_path'));
+        $this->set('c5_path', $globalConfig->get('concrete.seo.c5_path'));
         ##### /CW-add
 
         $strStatus = (string) $strStatus;
