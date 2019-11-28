@@ -22,7 +22,15 @@
         <?php
         } ?>
     </fieldset>
-
+    <!-- ##CW-ADDED --> 
+    <fieldset>
+        <legend><?= t('Concrete5 Path') ?></legend>
+        <div class="form-group">
+            <label class="control-label" for="c5_path"><?= t('Path to concrete 5 dashboard/admin/login pages') ?></label>
+            <?=$form->text('c5_path', $c5_path, ['placeholder' => '/'])?>
+        </div>
+    </fieldset>
+    <!-- /##CW-ADDED --> 
     <fieldset>
         <legend><?= t('Canonical URLs') ?></legend>
 

@@ -23,6 +23,9 @@ class Urls extends DashboardSitePageController
         $this->set('redirect_to_canonical_url', $globalConfig->get('concrete.seo.redirect_to_canonical_url'));
         $this->set('urlRewriting', $urlRewriting);
         $this->set('canonical_tag', $siteConfig->get('seo.canonical_tag.enabled'));
+        ##### CW-add
+        $this->set('c5_path', $siteConfig->get('seo.c5_path'));
+        ##### /CW-add
 
         $strStatus = (string) $strStatus;
         if ($strStatus === 'saved') {
@@ -129,6 +132,16 @@ class Urls extends DashboardSitePageController
                 )) {
                 $this->error->add(t('The canonical URL provided must start with "http://" or "https://".'));
             }
+            ###### CW-add
+            $c5Path='';
+            if ($this->post('c5_path')){
+                $c5Path = '/'.trim($this->post('c5_path'),'/ ');                
+                $errChrs = preg_replace('/[a-zA-Z0-9_\-\/]/', '', $c5Path);
+                if(strlen($errChrs)>0){
+                    $this->error->add(t('The Concrete 5 Path cannot contain these characters').': '.$errChrs);
+                }                             
+            }
+            ###### /CW
             if ($this->post('canonical_url_alternative') &&
                 !(
                     strpos(strtolower($this->post('canonical_url_alternative')), 'http://') === 0 ||
@@ -139,6 +152,9 @@ class Urls extends DashboardSitePageController
             if (!$this->error->has()) {
                 $globalConfig = $this->app->make('config');
                 $siteConfig = $this->getSite()->getConfigRepository();
+                ###### CW-add
+                $globalConfig->save('concrete.seo.c5_path', $c5Path);
+                ###### /CW-add
                 $siteConfig->save('seo.canonical_url', $this->post('canonical_url'));
                 $siteConfig->save('seo.canonical_url_alternative', $this->post('canonical_url_alternative'));
                 $globalConfig->save('concrete.seo.redirect_to_canonical_url', $this->post('redirect_to_canonical_url') ? 1 : 0);
